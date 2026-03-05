@@ -1,141 +1,119 @@
-# 🚀 Welcome to Z.ai Code Scaffold
+# 🚴‍♀️ WeChat Mini Program 骑行应用
 
-A modern, production-ready web application scaffold powered by cutting-edge technologies, designed to accelerate your development with [Z.ai](https://chat.z.ai)'s AI-powered coding assistance.
+一个基于微信小程序开发的现代化骑行记录与社区应用，为骑行爱好者提供全方位的骑行体验。
 
-## ✨ Technology Stack
+## ✨ 项目功能
 
-This scaffold provides a robust foundation built with:
+### 📱 核心功能
+- **首页** - 展示骑行统计、最近活动和热门路线
+- **路线** - 探索精选骑行路线，查看详细信息和用户评价
+- **记录** - 实时记录骑行轨迹、速度、距离等数据
+- **社区** - 分享骑行动态，与其他骑行爱好者互动
+- **个人中心** - 查看个人骑行数据、成就和设置
 
-### 🎯 Core Framework
-- **⚡ Next.js 16** - The React framework for production with App Router
-- **📘 TypeScript 5** - Type-safe JavaScript for better developer experience
-- **🎨 Tailwind CSS 4** - Utility-first CSS framework for rapid UI development
+### 🎨 设计风格
+- **Instagram 2025-2026 设计风格** - 大胆简约、柔和渐变、玻璃拟态效果
+- **圆角卡片** - 48rpx 圆角设计，现代感十足
+- **微交互** - 平滑过渡动画，提升用户体验
+- **响应式布局** - 适配各种屏幕尺寸
 
-### 🧩 UI Components & Styling
-- **🧩 shadcn/ui** - High-quality, accessible components built on Radix UI
-- **🎯 Lucide React** - Beautiful & consistent icon library
-- **🌈 Framer Motion** - Production-ready motion library for React
-- **🎨 Next Themes** - Perfect dark mode in 2 lines of code
+### 🛠 技术实现
+- **微信小程序原生开发** - 基于 WXML、WXSS、JS、JSON
+- **Mock 数据系统** - 内置模拟数据，无后端也能开发测试
+- **API 封装** - 统一的接口调用方式，便于后续对接真实后端
+- **模块化设计** - 清晰的代码结构，易于维护和扩展
 
-### 📋 Forms & Validation
-- **🎣 React Hook Form** - Performant forms with easy validation
-- **✅ Zod** - TypeScript-first schema validation
+## 🚀 快速开始
 
-### 🔄 State Management & Data Fetching
-- **🐻 Zustand** - Simple, scalable state management
-- **🔄 TanStack Query** - Powerful data synchronization for React
-- **🌐 Fetch** - Promise-based HTTP request
+### 开发环境
+1. **安装微信开发者工具** - 从 [微信公众平台](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html) 下载
+2. **导入项目** - 使用微信开发者工具打开 `miniprogram` 目录
+3. **配置 AppID** - 在 `project.config.json` 中设置你的小程序 AppID
 
-### 🗄️ Database & Backend
-- **🗄️ Prisma** - Next-generation TypeScript ORM
-- **🔐 NextAuth.js** - Complete open-source authentication solution
-
-### 🎨 Advanced UI Features
-- **📊 TanStack Table** - Headless UI for building tables and datagrids
-- **🖱️ DND Kit** - Modern drag and drop toolkit for React
-- **📊 Recharts** - Redefined chart library built with React and D3
-- **🖼️ Sharp** - High performance image processing
-
-### 🌍 Internationalization & Utilities
-- **🌍 Next Intl** - Internationalization library for Next.js
-- **📅 Date-fns** - Modern JavaScript date utility library
-- **🪝 ReactUse** - Collection of essential React hooks for modern development
-
-## 🎯 Why This Scaffold?
-
-- **🏎️ Fast Development** - Pre-configured tooling and best practices
-- **🎨 Beautiful UI** - Complete shadcn/ui component library with advanced interactions
-- **🔒 Type Safety** - Full TypeScript configuration with Zod validation
-- **📱 Responsive** - Mobile-first design principles with smooth animations
-- **🗄️ Database Ready** - Prisma ORM configured for rapid backend development
-- **🔐 Auth Included** - NextAuth.js for secure authentication flows
-- **📊 Data Visualization** - Charts, tables, and drag-and-drop functionality
-- **🌍 i18n Ready** - Multi-language support with Next Intl
-- **🚀 Production Ready** - Optimized build and deployment settings
-- **🤖 AI-Friendly** - Structured codebase perfect for AI assistance
-
-## 🚀 Quick Start
-
-```bash
-# Install dependencies
-bun install
-
-# Start development server
-bun run dev
-
-# Build for production
-bun run build
-
-# Start production server
-bun start
-```
-
-Open [http://localhost:3000](http://localhost:3000) to see your application running.
-
-## 🤖 Powered by Z.ai
-
-This scaffold is optimized for use with [Z.ai](https://chat.z.ai) - your AI assistant for:
-
-- **💻 Code Generation** - Generate components, pages, and features instantly
-- **🎨 UI Development** - Create beautiful interfaces with AI assistance  
-- **🔧 Bug Fixing** - Identify and resolve issues with intelligent suggestions
-- **📝 Documentation** - Auto-generate comprehensive documentation
-- **🚀 Optimization** - Performance improvements and best practices
-
-Ready to build something amazing? Start chatting with Z.ai at [chat.z.ai](https://chat.z.ai) and experience the future of AI-powered development!
-
-## 📁 Project Structure
+### 项目结构
 
 ```
-src/
-├── app/                 # Next.js App Router pages
-├── components/          # Reusable React components
-│   └── ui/             # shadcn/ui components
-├── hooks/              # Custom React hooks
-└── lib/                # Utility functions and configurations
+miniprogram/
+├── app.js           # 小程序入口文件
+├── app.json         # 小程序配置文件
+├── app.wxss         # 全局样式文件
+├── pages/           # 页面目录
+│   ├── home/        # 首页
+│   ├── routes/      # 路线页面
+│   ├── record/      # 记录页面
+│   ├── community/   # 社区页面
+│   └── profile/     # 个人中心
+└── utils/           # 工具函数
+    └── api.js       # API 封装
 ```
 
-## 🎨 Available Features & Components
+### 运行项目
+1. 在微信开发者工具中点击「编译」按钮
+2. 在模拟器中预览效果
+3. 可以使用「真机调试」在真实设备上测试
 
-This scaffold includes a comprehensive set of modern web development tools:
+## 📋 功能详解
 
-### 🧩 UI Components (shadcn/ui)
-- **Layout**: Card, Separator, Aspect Ratio, Resizable Panels
-- **Forms**: Input, Textarea, Select, Checkbox, Radio Group, Switch
-- **Feedback**: Alert, Toast (Sonner), Progress, Skeleton
-- **Navigation**: Breadcrumb, Menubar, Navigation Menu, Pagination
-- **Overlay**: Dialog, Sheet, Popover, Tooltip, Hover Card
-- **Data Display**: Badge, Avatar, Calendar
+### 首页
+- 骑行数据概览（总距离、总时长、总次数）
+- 最近骑行记录展示
+- 推荐热门路线
+- 天气信息和骑行建议
 
-### 📊 Advanced Data Features
-- **Tables**: Powerful data tables with sorting, filtering, pagination (TanStack Table)
-- **Charts**: Beautiful visualizations with Recharts
-- **Forms**: Type-safe forms with React Hook Form + Zod validation
+### 路线
+- 路线列表展示
+- 路线详情（距离、难度、海拔、预计时长）
+- 路线地图预览
+- 用户评价和评分
 
-### 🎨 Interactive Features
-- **Animations**: Smooth micro-interactions with Framer Motion
-- **Drag & Drop**: Modern drag-and-drop functionality with DND Kit
-- **Theme Switching**: Built-in dark/light mode support
+### 记录
+- 实时定位和轨迹绘制
+- 速度、距离、时间实时统计
+- 骑行数据可视化
+- 骑行记录保存和分享
 
-### 🔐 Backend Integration
-- **Authentication**: Ready-to-use auth flows with NextAuth.js
-- **Database**: Type-safe database operations with Prisma
-- **API Client**: HTTP requests with Fetch + TanStack Query
-- **State Management**: Simple and scalable with Zustand
+### 社区
+- 骑行动态发布
+- 点赞、评论互动
+- 关注其他骑行爱好者
+- 热门话题和活动
 
-### 🌍 Production Features
-- **Internationalization**: Multi-language support with Next Intl
-- **Image Optimization**: Automatic image processing with Sharp
-- **Type Safety**: End-to-end TypeScript with Zod validation
-- **Essential Hooks**: 100+ useful React hooks with ReactUse for common patterns
+### 个人中心
+- 个人资料管理
+- 骑行成就和徽章
+- 历史记录查询
+- 应用设置
 
-## 🤝 Get Started with Z.ai
+## 🎨 设计特点
 
-1. **Clone this scaffold** to jumpstart your project
-2. **Visit [chat.z.ai](https://chat.z.ai)** to access your AI coding assistant
-3. **Start building** with intelligent code generation and assistance
-4. **Deploy with confidence** using the production-ready setup
+- **色彩方案** - 采用活力橙、天空蓝等骑行主题色彩
+- **渐变效果** - 柔和的色彩过渡，营造现代感
+- **玻璃拟态** - 半透明效果，增强层次感
+- **微动画** - 页面切换、按钮点击等交互效果
+- **卡片设计** - 圆角卡片搭配阴影，立体感强
+
+## 🔧 技术栈
+
+- **前端** - 微信小程序原生开发
+- **样式** - WXSS + 自定义样式
+- **状态管理** - 小程序内置数据管理
+- **地图** - 微信小程序地图组件
+- **数据** - Mock 数据系统
+
+## 📱 兼容性
+
+- 支持微信小程序基础库 2.10.0 及以上版本
+- 适配 iOS 和 Android 设备
+- 支持各种屏幕尺寸
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request 来改进这个项目！
+
+## 📄 许可证
+
+MIT License
 
 ---
 
-Built with ❤️ for the developer community. Supercharged by [Z.ai](https://chat.z.ai) 🚀
+Built with ❤️ for cycling enthusiasts 🚴‍♂️
