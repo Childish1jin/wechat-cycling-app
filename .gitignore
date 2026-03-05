@@ -1,0 +1,22 @@
+# 微信小程序
+.DS_Store
+node_modules/
+miniprogram_npm/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 系统文件
+Thumbs.db
+*.log
+*.tmp
+
+# 依赖
+package-lock.json
+yarn.lock
+
+# Trae AI
+.trae/

@@ -1,0 +1,201 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// 用户模型
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  avatar        String?
+  bio           String?
+  phone         String?
+  height        Float?   // 身高(cm)
+  weight        Float?   // 体重(kg)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // 关联
+  routes        Route[]
+  rides         Ride[]
+  checkIns      CheckIn[]
+  posts         CommunityPost[]
+  comments      Comment[]
+  favorites     Favorite[]
+  likes         Like[]
+}
+
+// 路线模型
+model Route {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  distance      Float    // 距离(km)
+  duration      Int      // 预计时长(分钟)
+  difficulty    String   // 难度: easy, medium, hard
+  elevation     Int      // 海拔变化(m)
+  startAddress  String?
+  endAddress    String?
+  startLat      Float
+  startLng      Float
+  endLat        Float?
+  endLng        Float?
+  isPublic      Boolean  @default(false)
+  coverImage    String?
+  tags          String?  // JSON数组存储标签
+  viewCount     Int      @default(0)
+  favoriteCount Int      @default(0)
+  checkInCount  Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // 关联
+  creatorId     String
+  creator       User     @relation(fields: [creatorId], references: [id])
+  points        RoutePoint[]
+  checkIns      CheckIn[]
+  favorites     Favorite[]
+  rides         Ride[]
+}
+
+// 路线点模型
+model RoutePoint {
+  id          String   @id @default(cuid())
+  order       Int      // 顺序
+  lat         Float    // 纬度
+  lng         Float    // 经度
+  elevation   Float?   // 海拔
+  name        String?  // 地点名称
+  description String?  // 描述
+  routeId     String
+  route       Route    @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  
+  @@index([routeId])
+}
+
+// 骑行记录模型
+model Ride {
+  id            String   @id @default(cuid())
+  name          String?
+  distance      Float    // 距离(km)
+  duration      Int      // 时长(秒)
+  avgSpeed      Float    // 平均速度(km/h)
+  maxSpeed      Float?   // 最高速度(km/h)
+  calories      Int?     // 卡路里消耗
+  elevationGain Int?     // 累计爬升(m)
+  startLat      Float?   // 起点纬度
+  startLng      Float?   // 起点经度
+  endLat        Float?   // 终点纬度
+  endLng        Float?   // 终点经度
+  startTime     DateTime
+  endTime       DateTime?
+  notes         String?  // 骑行笔记
+  photos        String?  // JSON数组存储照片URL
+  routeId       String?  // 关联的路线
+  createdAt     DateTime @default(now())
+  
+  // 关联
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  route         Route?   @relation(fields: [routeId], references: [id])
+  points        RidePoint[]
+}
+
+// 骑行轨迹点模型
+model RidePoint {
+  id        String   @id @default(cuid())
+  timestamp DateTime
+  lat       Float
+  lng       Float
+  elevation Float?
+  speed     Float?   // 当前速度
+  distance  Float?   // 累计距离
+  rideId    String
+  ride      Ride     @relation(fields: [rideId], references: [id], onDelete: Cascade)
+  
+  @@index([rideId])
+}
+
+// 打卡记录模型
+model CheckIn {
+  id          String   @id @default(cuid())
+  duration    Int      // 完成时间(秒)
+  notes       String?
+  photos      String?  // JSON数组存储照片URL
+  createdAt   DateTime @default(now())
+  
+  // 关联
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  routeId     String
+  route       Route    @relation(fields: [routeId], references: [id])
+}
+
+// 收藏模型
+model Favorite {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  routeId   String
+  route     Route    @relation(fields: [routeId], references: [id])
+  
+  @@unique([userId, routeId])
+}
+
+// 社区帖子模型
+model CommunityPost {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  images    String?  // JSON数组存储图片URL
+  type      String   // 类型: ride_share, challenge, question, discussion
+  viewCount Int      @default(0)
+  likeCount Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // 关联
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  comments  Comment[]
+  likes     Like[]
+}
+
+// 评论模型
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // 关联
+  authorId  String
+  author    User          @relation(fields: [authorId], references: [id])
+  postId    String
+  post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  @@index([postId])
+}
+
+// 点赞模型
+model Like {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  
+  userId    String
+  user      User          @relation(fields: [userId], references: [id])
+  postId    String
+  post      CommunityPost @relation(fields: [postId], references: [id])
+  
+  @@unique([userId, postId])
+}

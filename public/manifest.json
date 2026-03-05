@@ -1,0 +1,18 @@
+{
+  "name": "骑行助手",
+  "short_name": "骑行助手",
+  "description": "专业的骑行记录应用，记录您的每一次骑行旅程",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#22c55e",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

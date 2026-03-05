@@ -1,0 +1,294 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.75rem;
+  
+  /* INS 风格 - 纯白背景 */
+  --background: #ffffff;
+  --foreground: #262626;
+  --card: #ffffff;
+  --card-foreground: #262626;
+  --popover: #ffffff;
+  --popover-foreground: #262626;
+  
+  /* INS 渐变主色 - 紫粉橙渐变 */
+  --primary: #E1306C;
+  --primary-foreground: #ffffff;
+  
+  /* 次要色 */
+  --secondary: #FAFAFA;
+  --secondary-foreground: #262626;
+  
+  /* 静音色 */
+  --muted: #FAFAFA;
+  --muted-foreground: #8E8E8E;
+  
+  /* 强调色 */
+  --accent: #FAFAFA;
+  --accent-foreground: #262626;
+  
+  /* 危险色 */
+  --destructive: #ED4956;
+  
+  /* 边框和输入 */
+  --border: #DBDBDB;
+  --input: #EFEFEF;
+  --ring: #E1306C;
+  
+  /* 图表颜色 - INS 渐变色系 */
+  --chart-1: #E1306C;  /* 粉红 */
+  --chart-2: #F77737;  /* 橙色 */
+  --chart-3: #405DE6;  /* 紫蓝 */
+  --chart-4: #833AB4;  /* 紫色 */
+  --chart-5: #FD1D1D;  /* 红色 */
+  
+  /* 侧边栏 */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #262626;
+  --sidebar-primary: #E1306C;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #FAFAFA;
+  --sidebar-accent-foreground: #262626;
+  --sidebar-border: #DBDBDB;
+  --sidebar-ring: #E1306C;
+  
+  /* 安全区域 */
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  
+  /* INS 渐变定义 */
+  --ig-gradient: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #F77737, #FCAF45);
+  --ig-gradient-primary: linear-gradient(45deg, #833AB4, #E1306C, #F56040);
+  --ig-gradient-story: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF, #515BD4);
+}
+
+.dark {
+  /* INS 深色模式 */
+  --background: #000000;
+  --foreground: #FAFAFA;
+  --card: #121212;
+  --card-foreground: #FAFAFA;
+  --popover: #121212;
+  --popover-foreground: #FAFAFA;
+  
+  /* 主色 */
+  --primary: #E1306C;
+  --primary-foreground: #ffffff;
+  
+  /* 次要色 */
+  --secondary: #262626;
+  --secondary-foreground: #FAFAFA;
+  
+  /* 静音色 */
+  --muted: #262626;
+  --muted-foreground: #8E8E8E;
+  
+  /* 强调色 */
+  --accent: #262626;
+  --accent-foreground: #FAFAFA;
+  
+  /* 危险色 */
+  --destructive: #ED4956;
+  
+  /* 边框 */
+  --border: #363636;
+  --input: #262626;
+  --ring: #E1306C;
+  
+  /* 图表 */
+  --chart-1: #E1306C;
+  --chart-2: #F77737;
+  --chart-3: #405DE6;
+  --chart-4: #833AB4;
+  --chart-5: #FD1D1D;
+  
+  /* 侧边栏 */
+  --sidebar: #000000;
+  --sidebar-foreground: #FAFAFA;
+  --sidebar-primary: #E1306C;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #262626;
+  --sidebar-accent-foreground: #FAFAFA;
+  --sidebar-border: #363636;
+  --sidebar-ring: #E1306C;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* 移动端优先 */
+  html {
+    overflow-x: hidden;
+  }
+  
+  /* 安全区域适配 */
+  .safe-area-bottom {
+    padding-bottom: var(--safe-area-inset-bottom);
+  }
+}
+
+/* INS 风格工具类 */
+@layer utilities {
+  /* INS 渐变背景 */
+  .ig-gradient {
+    background: var(--ig-gradient);
+  }
+  
+  .ig-gradient-primary {
+    background: var(--ig-gradient-primary);
+  }
+  
+  .ig-gradient-story {
+    background: var(--ig-gradient-story);
+  }
+  
+  /* INS 渐变文字 */
+  .ig-text-gradient {
+    background: var(--ig-gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* 故事圈样式 */
+  .ig-story-ring {
+    background: var(--ig-gradient-story);
+    padding: 2px;
+    border-radius: 50%;
+  }
+  
+  /* INS 卡片样式 */
+  .ig-card {
+    @apply bg-white dark:bg-black border-0 rounded-xl;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* INS 按钮样式 */
+  .ig-button {
+    @apply bg-[#0095F6] hover:bg-[#1877F2] text-white font-semibold rounded-lg transition-colors;
+  }
+  
+  /* INS 关注按钮 */
+  .ig-follow-button {
+    @apply bg-[#EFEFEF] dark:bg-[#363636] text-[#262626] dark:text-[#FAFAFA] font-semibold rounded-lg hover:bg-[#DBDBDB] dark:hover:bg-[#4A4A4A] transition-colors;
+  }
+  
+  /* 安全区域 */
+  .pb-safe {
+    padding-bottom: calc(0.5rem + var(--safe-area-inset-bottom));
+  }
+  
+  .pt-safe {
+    padding-top: calc(0.5rem + var(--safe-area-inset-top, 0px));
+  }
+  
+  /* 底部导航固定 */
+  .fixed-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding-bottom: var(--safe-area-inset-bottom);
+  }
+  
+  /* 主内容区域适配底部导航 */
+  .main-content {
+    padding-bottom: calc(4rem + var(--safe-area-inset-bottom));
+    min-height: 100vh;
+  }
+  
+  /* INS 风格隐藏滚动条 */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  /* INS 动画 - 点赞心跳 */
+  @keyframes heartBeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.3); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+  
+  .animate-heart-beat {
+    animation: heartBeat 0.6s ease-in-out;
+  }
+  
+  /* INS 故事动画 */
+  @keyframes storyPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+  
+  .animate-story-pulse {
+    animation: storyPulse 2s ease-in-out infinite;
+  }
+}
+
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* 选中文本颜色 */
+::selection {
+  background: rgba(225, 48, 108, 0.3);
+  color: inherit;
+}
