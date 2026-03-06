@@ -20,3 +20,13 @@ yarn.lock
 
 # Trae AI
 .trae/
+
+# Next.js
+.next/
+out/
+build/
+
+# Database
+*.db
+*.db-journal
+prisma/db/

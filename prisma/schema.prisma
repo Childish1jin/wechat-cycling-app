@@ -31,6 +31,10 @@ model User {
   comments      Comment[]
   favorites     Favorite[]
   likes         Like[]
+  stories       Story[]
+  storyComments StoryComment[]
+  storyLikes    StoryLike[]
+  milestones    StoryMilestone[]
 }
 
 // 路线模型
@@ -107,6 +111,7 @@ model Ride {
   user          User     @relation(fields: [userId], references: [id])
   route         Route?   @relation(fields: [routeId], references: [id])
   points        RidePoint[]
+  stories       Story[]
 }
 
 // 骑行轨迹点模型
@@ -198,4 +203,115 @@ model Like {
   post      CommunityPost @relation(fields: [postId], references: [id])
   
   @@unique([userId, postId])
+}
+
+model Story {
+  id          String          @id @default(cuid())
+  title       String
+  description String?
+  type        String          @default("image")
+  url         String
+  overlays    String?         // JSON数组
+  filter      String?         // 滤镜样式
+  mood        String?
+  weather     String?
+  temperature Int?
+  playlist    String?
+  reflection  String?
+  visibility  StoryVisibility @default(PRIVATE)
+  status      StoryStatus     @default(PUBLISHED)
+  isMilestone Boolean         @default(false)
+  milestoneKey String?
+  likes       Int             @default(0)
+  comments    Int             @default(0)
+  views       Int             @default(0)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  userId      String
+  user        User            @relation(fields: [userId], references: [id])
+  rideId      String?
+  ride        Ride?           @relation(fields: [rideId], references: [id])
+
+  medias      StoryMedia[]
+  commentList StoryComment[]
+  likeList    StoryLike[]
+  milestone   StoryMilestone?
+
+  @@index([userId, createdAt])
+  @@index([visibility, status])
+}
+
+model StoryMedia {
+  id        String    @id @default(cuid())
+  type      MediaType
+  url       String
+  shotAt    DateTime?
+  lat       Float?
+  lng       Float?
+  timelineSec Int?
+  createdAt DateTime  @default(now())
+
+  storyId   String
+  story     Story     @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  @@index([storyId])
+}
+
+model StoryComment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  storyId   String
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+
+  @@index([storyId, createdAt])
+}
+
+model StoryLike {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  storyId   String
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([storyId, userId])
+}
+
+model StoryMilestone {
+  id          String   @id @default(cuid())
+  ruleCode    String
+  payload     String?  // JSON
+  disabled    Boolean  @default(false)
+  triggeredAt DateTime @default(now())
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  storyId     String?  @unique
+  story       Story?   @relation(fields: [storyId], references: [id])
+
+  @@index([userId, ruleCode])
+}
+
+enum StoryVisibility {
+  PRIVATE
+  FRIENDS
+  PUBLIC
+}
+
+enum StoryStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
 }
