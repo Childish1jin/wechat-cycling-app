@@ -131,36 +131,57 @@ export async function GET(request: NextRequest) {
 
 // 获取每日统计数据
 async function getDailyStats(userId: string, days: number) {
-  const stats = []
   const now = new Date()
+  const startDate = new Date(now)
+  startDate.setDate(now.getDate() - (days - 1))
+  startDate.setHours(0, 0, 0, 0)
   
-  for (let i = days - 1; i >= 0; i--) {
-    const date = new Date(now)
-    date.setDate(date.getDate() - i)
-    date.setHours(0, 0, 0, 0)
-    
-    const nextDate = new Date(date)
-    nextDate.setDate(nextDate.getDate() + 1)
-    
-    const rides = await db.ride.findMany({
-      where: {
-        userId,
-        startTime: {
-          gte: date,
-          lt: nextDate
-        }
-      },
-      select: {
-        distance: true,
-        duration: true,
+  const endDate = new Date(now)
+  endDate.setDate(now.getDate() + 1)
+  endDate.setHours(0, 0, 0, 0)
+
+  const rides = await db.ride.findMany({
+    where: {
+      userId,
+      startTime: {
+        gte: startDate,
+        lt: endDate
       }
-    })
+    },
+    select: {
+      startTime: true,
+      distance: true,
+      duration: true,
+    }
+  })
+
+  // 按日期分组
+  const bucket = new Map<string, { rides: number; distance: number; duration: number }>()
+  
+  for (const r of rides) {
+    const d = new Date(r.startTime)
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+    
+    const cur = bucket.get(key) || { rides: 0, distance: 0, duration: 0 }
+    cur.rides += 1
+    cur.distance += r.distance
+    cur.duration += r.duration
+    bucket.set(key, cur)
+  }
+
+  const stats = []
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(now)
+    d.setDate(d.getDate() - i)
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+    
+    const agg = bucket.get(key) || { rides: 0, distance: 0, duration: 0 }
     
     stats.push({
-      date: date.toISOString().split('T')[0],
-      rides: rides.length,
-      distance: Math.round(rides.reduce((sum, r) => sum + r.distance, 0) * 100) / 100,
-      duration: rides.reduce((sum, r) => sum + r.duration, 0)
+      date: key,
+      rides: agg.rides,
+      distance: Math.round(agg.distance * 100) / 100,
+      duration: agg.duration
     })
   }
   
@@ -169,32 +190,50 @@ async function getDailyStats(userId: string, days: number) {
 
 // 获取每月统计数据
 async function getMonthlyStats(userId: string, months: number) {
-  const stats = []
   const now = new Date()
+  const startMonth = new Date(now.getFullYear(), now.getMonth() - (months - 1), 1)
+  const endMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1)
   
-  for (let i = months - 1; i >= 0; i--) {
-    const date = new Date(now.getFullYear(), now.getMonth() - i, 1)
-    const nextMonth = new Date(now.getFullYear(), now.getMonth() - i + 1, 1)
-    
-    const rides = await db.ride.findMany({
-      where: {
-        userId,
-        startTime: {
-          gte: date,
-          lt: nextMonth
-        }
-      },
-      select: {
-        distance: true,
-        duration: true,
+  const rides = await db.ride.findMany({
+    where: {
+      userId,
+      startTime: {
+        gte: startMonth,
+        lt: endMonth
       }
-    })
+    },
+    select: {
+      startTime: true,
+      distance: true,
+      duration: true,
+    }
+  })
+  
+  const bucket = new Map<string, { rides: number; distance: number; duration: number }>()
+  
+  for (const r of rides) {
+    const d = new Date(r.startTime)
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+    
+    const cur = bucket.get(key) || { rides: 0, distance: 0, duration: 0 }
+    cur.rides += 1
+    cur.distance += r.distance
+    cur.duration += r.duration
+    bucket.set(key, cur)
+  }
+  
+  const stats = []
+  for (let i = months - 1; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+    
+    const agg = bucket.get(key) || { rides: 0, distance: 0, duration: 0 }
     
     stats.push({
-      month: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`,
-      rides: rides.length,
-      distance: Math.round(rides.reduce((sum, r) => sum + r.distance, 0) * 100) / 100,
-      duration: rides.reduce((sum, r) => sum + r.duration, 0)
+      month: key,
+      rides: agg.rides,
+      distance: Math.round(agg.distance * 100) / 100,
+      duration: agg.duration
     })
   }
   
